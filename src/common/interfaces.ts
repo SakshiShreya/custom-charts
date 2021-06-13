@@ -1,1 +1,1 @@
-type IProject = { title: string; id: string };
+type IChartList = { title: string; id: string };

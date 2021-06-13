@@ -1,8 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
-import HomeScreen from "./src/screens/HomeScreen";
-import ProjectsScreen from "./src/screens/ProjectsScreen";
+import HomeScreen from "./src/screens/homeScreen";
+import ChartListScreen from "./src/screens/chartListScreen";
 import {
   useFonts,
   Roboto_100Thin,
@@ -42,9 +42,9 @@ export default function App() {
   if (fontsLoaded) {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Projects">
+        <Stack.Navigator initialRouteName="ChartList">
           <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Projects" component={ProjectsScreen} />
+          <Stack.Screen name="ChartList" component={ChartListScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );

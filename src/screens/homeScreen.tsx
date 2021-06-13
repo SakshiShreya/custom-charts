@@ -9,7 +9,7 @@ export interface HomeScreenProps {
 const HomeScreen: React.FC<HomeScreenProps> = props => {
   return (
     <View>
-      <Button title="Projects" onPress={() => props.navigation.navigate("Projects")} />
+      <Button title="Charts List" onPress={() => props.navigation.navigate("ChartList")} />
       <Text>Home Screen</Text>
     </View>
   );

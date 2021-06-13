@@ -6,48 +6,48 @@ import { storageKeys } from "../common/constants";
 import { NoBgButton, PrimaryButton } from "../components/common/buttons";
 import { H1, P } from "../components/common/typography";
 import Popup from "../components/common/popup";
-import ProjectForm from "../components/forms/projectForm";
+import ChartListForm from "../components/forms/chartListForm";
 import { FontAwesome } from "@expo/vector-icons";
 
-export interface ProjectsScreenProps {}
+export interface ChartListScreenProps {}
 
-const ProjectsScreen: React.FC<ProjectsScreenProps> = props => {
-  const [projects, setProjects] = React.useState<Array<IProject>>([]);
+const ChartListScreen: React.FC<ChartListScreenProps> = () => {
+  const [chartList, setChartList] = React.useState<Array<IChartList>>([]);
   const [visible, setVisible] = React.useState(false);
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
 
-  async function getProjects() {
-    const p = await AsyncStorage.getItem(storageKeys.project);
-    setProjects(p ? JSON.parse(p) : []);
+  async function getChartList() {
+    const p = await AsyncStorage.getItem(storageKeys.chartList);
+    setChartList(p ? JSON.parse(p) : []);
   }
 
   React.useEffect(() => {
-    getProjects();
+    getChartList();
   }, []);
 
-  function handleProjectAdd() {
+  function handleChartAdd() {
     hideModal();
-    getProjects();
+    getChartList();
   }
 
-  function deleteProject(index: number) {
-    const p = [...projects];
+  function deleteChart(index: number) {
+    const p = [...chartList];
 
     p.splice(index, 1);
 
-    setProjects(p);
-    AsyncStorage.setItem(storageKeys.project, JSON.stringify(p));
+    setChartList(p);
+    AsyncStorage.setItem(storageKeys.chartList, JSON.stringify(p));
   }
 
-  function listItem({ item, index }: ListRenderItemInfo<IProject>) {
+  function chartListItem({ item, index }: ListRenderItemInfo<IChartList>) {
     return (
       <View style={styles.listItem}>
         <Pressable onPress={() => console.log("open", index, ". ", item)} style={styles.p}>
           <P>{item.title}</P>
         </Pressable>
-        <NoBgButton onPress={() => deleteProject(index)} mini>
+        <NoBgButton onPress={() => deleteChart(index)} mini>
           <FontAwesome name="trash" style={styles.icon} />
         </NoBgButton>
       </View>
@@ -57,18 +57,18 @@ const ProjectsScreen: React.FC<ProjectsScreenProps> = props => {
   return (
     <React.Fragment>
       <Popup onClose={hideModal} visible={visible}>
-        <ProjectForm onSubmit={handleProjectAdd} />
+        <ChartListForm onSubmit={handleChartAdd} />
       </Popup>
 
       <View style={{ ...commonStyles.container }}>
-        <H1>Projects Screen</H1>
+        <H1>Your charts</H1>
 
         <View style={styles.addCont}>
           <PrimaryButton onPress={showModal}>Add</PrimaryButton>
         </View>
 
         <View style={styles.listCont}>
-          <FlatList data={projects} renderItem={listItem} keyExtractor={item => item.id} />
+          <FlatList data={chartList} renderItem={chartListItem} keyExtractor={item => item.id} />
         </View>
       </View>
     </React.Fragment>
@@ -89,11 +89,11 @@ const styles = StyleSheet.create({
   },
   p: {
     paddingVertical: 0.25 * em,
-    flex: 1,
+    flex: 1
   },
   icon: {
     fontSize: 1.2 * em
   }
 });
 
-export default ProjectsScreen;
+export default ChartListScreen;
